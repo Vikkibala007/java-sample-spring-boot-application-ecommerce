@@ -12,7 +12,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/venkatesanEzee/jenkins.git'
+                    url: 'https://github.com/Vikkibala007/java-sample-spring-boot-application-ecommerce.git'
             }
         }
 
