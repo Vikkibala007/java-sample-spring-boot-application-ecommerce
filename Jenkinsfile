@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        JAVA_HOME = "/usr/lib/jvm/java-17-amazon-corretto.x86_64"
+        JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
         MAVEN_HOME = "/usr/share/maven"
         PATH = "${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}"
         MAVEN_OPTS = "-Dmaven.repo.local=${WORKSPACE}/.m2/repository"
@@ -32,7 +32,7 @@ pipeline {
                 dir('sparkjava-war-example') { // change this to your actual folder containing pom.xml
                     sh '''
                         echo "=== Building WAR ==="
-                        mvn clean package --add-opens java.base/java.util=ALL-UNNAMED
+                        mvn clean package
                     '''
                 }
             }
