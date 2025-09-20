@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Use Credentials') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'my-cred-id', 
+                withCredentials([usernamePassword(credentialsId: 'checksamepattern', 
                                                  usernameVariable: 'USERNAME', 
                                                  passwordVariable: 'PASSWORD')]) {
                     sh '''
