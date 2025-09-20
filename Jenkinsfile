@@ -1,38 +1,18 @@
 pipeline {
     agent any
-
-    environment {
-        JAVA_HOME = "/usr/lib/jvm/java-17-openjdk-amd64"
-        MAVEN_HOME = "/usr/share/maven"
-        PATH = "${JAVA_HOME}/bin:${MAVEN_HOME}/bin:${PATH}"
-        MAVEN_OPTS = "-Dmaven.repo.local=${WORKSPACE}/.m2/repository"
-    }
-
+    
     stages {
-        stage('Checkout') {
+        stage('Use Credentials') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/Vikkibala007/java-sample-spring-boot-application-ecommerce.git'
-            }
-        }
-
-        stage('Verify Tools') {
-            steps {
-                sh '''
-                    echo "=== Java Version ==="
-                    java -version
-                    echo "=== Maven Version ==="
-                    mvn -v
-                '''
-            }
-        }
-
-        stage('Build WAR') {
-            steps {
-                dir('sparkjava-war-example') { // change this to your actual folder containing pom.xml
+                withCredentials([usernamePassword(credentialsId: 'my-cred-id', 
+                                                 usernameVariable: 'USERNAME', 
+                                                 passwordVariable: 'PASSWORD')]) {
                     sh '''
-                        echo "=== Building WAR ==="
-                        mvn clean package
+                        echo "Using Jenkins Credentials"
+                        echo "Username: $USERNAME"
+                        # Don't print the password directly for security reasons
+                        echo "Making a curl request with credentials..."
+                        curl -u $USERNAME:$PASSWORD https://httpbin.org/basic-auth/$USERNAME/$PASSWORD
                     '''
                 }
             }
